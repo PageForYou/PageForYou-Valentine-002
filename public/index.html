@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page For You</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <section id="home" class="page active">
+        <h1 class="title">Happy Valentine Day</h1>
+        <p class="unlock-hint">เลื่อนขึ้นเพื่อปลดล็อค</p>
+    </section>
+
+  <section id="password" class="page">
+    <button class="back-btn" onclick="showPage('home')">←</button>
+    <h2 id="password-hint">รหัสเป็นรูปหัวใจ ><</h2>
+
+    <div id="pattern-wrapper">
+        <svg id="lines"></svg>
+        <div id="pattern" class="pattern"></div>
+    </div>
+  </section>
+
+  <section id="menu" class="page">
+    <button class="back-btn" onclick="showPage('home')">←</button>
+    <div class="menu-grid">
+      <div class="menu-box"></div>
+      <div class="menu-box"></div>
+      <div class="menu-box"></div>
+      <div class="menu-box"></div>
+    </div>
+  </section>
+
+  <script src="js/router.js"></script>
+  <script src="js/page-home.js"></script>
+  <script src="js/page-password.js"></script>
+  <script src="js/page-menu.js"></script>
+</body>
+</html>
