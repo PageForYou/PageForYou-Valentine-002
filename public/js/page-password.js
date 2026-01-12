@@ -1,26 +1,45 @@
 // ===== CONFIG =====
-const correctPattern = [1, 2, 6, 9];
-
+// Updated pattern for heart shape (using 7 dots)
+const correctPattern = [7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8]; // You can adjust this pattern as needed
 // ===== STATE =====
 let input = [];
 let isDrawing = false;
 let lastDot = null;
-
 // ===== ELEMENTS =====
 const pattern = document.getElementById("pattern");
 const patternWrapper = document.getElementById("pattern-wrapper");
 const svg = document.getElementById("lines");
-
 // ===== INIT =====
 pattern.innerHTML = "";
 svg.innerHTML = "";
-
-for (let i = 1; i <= 9; i++) {
+// Heart shape dot positions [x, y] in percentage
+const heartDots = [
+  // top cleft (รอยเว้าหัวใจ)
+  [50, 28],   // 1 top center dip
+  // left lobe
+  [34, 18],   // 2 left top (was 38)
+  [18, 22],   // 3 left upper curve (was 28)
+  [10, 35],   // 4 left mid (was 22)
+  [13, 55],   // 5 left lower (was 25)
+  [28, 72],   // 6 left bottom curve (was 38)
+  // bottom point
+  [50, 88],   // 7 bottom tip (แหลม)
+  // right lobe
+  [72, 72],   // 8 right bottom curve (was 62)
+  [87, 55],   // 9 right lower (was 75)
+  [90, 35],   // 10 right mid (was 78)
+  [82, 22],   // 11 right upper curve (was 72)
+  [66, 18],   // 12 right top (was 62)
+];
+// Create dots in heart shape
+heartDots.forEach((pos, index) => {
   const dot = document.createElement("div");
   dot.className = "dot";
-  dot.dataset.id = i;
+  dot.dataset.id = index + 1; // 1-based index
+  dot.style.left = `${pos[0]}%`;
+  dot.style.top = `${pos[1]}%`;
   pattern.appendChild(dot);
-}
+});
 
 // ===== EVENTS =====
 pattern.addEventListener("touchstart", e => {

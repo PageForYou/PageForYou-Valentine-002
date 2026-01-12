@@ -81,12 +81,18 @@ h1, h2 {
   justify-content: center;
   margin-top: 40px;
   overflow: hidden;
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  touch-action: none;
 }
 
 #pattern-wrapper {
   position: relative;
-  width: fit-content;
-  margin: 0 auto;
+  width: 300px;
+  height: 300px;
+  margin: 40px auto;
 }
 
 #lines {
@@ -103,16 +109,21 @@ h1, h2 {
 }
 
 .dot {
-  width: 20px;
-  height: 20px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #fff;
-  border: 2px solid #ff9ac7;
+  border: 2px solid #ff4f9a;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+  z-index: 2;
 }
 
 .dot.active {
   background: #ff4f9a;
-  transform: scale(1.15);
+  transform: translate(-50%, -50%) scale(1.3);
+  box-shadow: 0 0 10px rgba(255, 79, 154, 0.5);
 }
 
 .pattern.error .dot {
