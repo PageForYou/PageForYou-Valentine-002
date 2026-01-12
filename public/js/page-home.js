@@ -1,40 +1,36 @@
 // Add this function to get the first image in the directory
-function getFirstImageInDir(dir) {
-  // This is a simplified example - in a real app, you'd need server-side code to list files
-  // For now, we'll assume the image is named '01.jpg' or similar
-  const possibleExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-  
-  for (const ext of possibleExtensions) {
-    const imgPath = `${dir}/01${ext}`;
-    // We'll try to load the image to check if it exists
-    const img = new Image();
-    img.src = imgPath;
-    if (img.complete) {
-      return imgPath;
+async function getFirstImageInDir(dir) {
+  try {
+    // Try to fetch the directory listing
+    const response = await fetch(dir);
+    if (!response.ok) return null;
+    
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Find all image links in the directory
+    const links = Array.from(doc.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".webp"]'))
+      .map(link => link.getAttribute('href'))
+      .filter(href => !href.startsWith('?') && href !== '../');
+      
+    if (links.length > 0) {
+      // Return the first image found
+      return `${dir}/${links[0]}`;
     }
+    return null;
+  } catch (error) {
+    console.error('Error accessing directory:', error);
+    return null;
   }
-  
-  // If no image found with common extensions, you might want to handle this case
-  console.error('No image found in directory:', dir);
-  return null;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+// Update the image loading part to be async
+document.addEventListener('DOMContentLoaded', async function() {
   const urlParams = new URLSearchParams(window.location.search);
-  const customerId = urlParams.get('id');
+  const customerId = urlParams.get('id') || 'example'; // Default to 'example' if no ID provided
   const homeSection = document.getElementById('home');
   
-  if (!customerId) {
-    // Show error message if no ID is provided
-    homeSection.innerHTML = `
-      <div style="text-align: center; padding: 20px;">
-        <h1 style="color: #ff4f9a; margin-bottom: 20px;">Error</h1>
-        <p>No customer ID provided. Please check your URL.</p>
-      </div>
-    `;
-    return;
-  }
-
   // Create image container
   const imgContainer = document.createElement('div');
   imgContainer.style.width = '100%';
@@ -42,46 +38,53 @@ document.addEventListener('DOMContentLoaded', function() {
   imgContainer.style.margin = '0 auto';
   imgContainer.style.padding = '20px';
   imgContainer.style.textAlign = 'center';
+  imgContainer.style.minHeight = '200px'; // Prevent layout shift
 
-  // Create image element
-  const img = document.createElement('img');
-  const imgDir = `customers/${customerId}/img/01`;
-  const imgPath = getFirstImageInDir(imgDir);
-  
-  if (!imgPath) {
-    imgContainer.innerHTML = '<p style="color: #ff4f9a;">ไม่พบรูปภาพ</p>';
-    homeSection.insertBefore(imgContainer, homeSection.querySelector('.unlock-hint'));
-    return;
-  }
+  // Show loading state
+  imgContainer.innerHTML = '<p>กำลังโหลดรูปภาพ...</p>';
+  homeSection.insertBefore(imgContainer, homeSection.querySelector('.unlock-hint'));
 
-  img.src = imgPath;
-  img.alt = 'Couple Image';
-  img.style.width = '100%';
-  img.style.height = 'auto';
-  img.style.borderRadius = '15px';
-  img.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-  
-  // Add loading state
-  img.onload = function() {
-    img.style.opacity = '1';
-  };
-  img.onerror = function() {
-    imgContainer.innerHTML = '<p style="color: #ff4f9a;">ไม่สามารถโหลดรูปภาพได้</p>';
-  };
-  img.style.opacity = '0';
-  img.style.transition = 'opacity 0.3s ease';
+  try {
+    const imgDir = `customers/${customerId}/img/01`;
+    const imgPath = await getFirstImageInDir(imgDir);
+    
+    if (!imgPath) {
+      throw new Error('No image found');
+    }
 
-  // Insert the image container after the title
-  const title = homeSection.querySelector('.title');
-  if (title) {
-    homeSection.insertBefore(imgContainer, title.nextSibling);
-    imgContainer.appendChild(img);
+    const img = document.createElement('img');
+    img.src = imgPath;
+    img.alt = 'Couple Image';
+    img.style.width = '100%';
+    img.style.height = 'auto';
+    img.style.borderRadius = '15px';
+    img.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+    img.style.opacity = '0';
+    img.style.transition = 'opacity 0.3s ease';
+    
+    img.onload = function() {
+      img.style.opacity = '1';
+      imgContainer.innerHTML = ''; // Clear loading message
+      imgContainer.appendChild(img);
+    };
+    
+    img.onerror = function() {
+      imgContainer.innerHTML = '<p style="color: #ff4f9a;">ไม่สามารถโหลดรูปภาพได้</p>';
+    };
+    
+  } catch (error) {
+    imgContainer.innerHTML = `
+      <div style="color: #ff4f9a;">
+        <p>ไม่พบรูปภาพสำหรับ ID: ${customerId}</p>
+        <p>ตรวจสอบ URL หรือลองใหม่ภายหลัง</p>
+      </div>
+    `;
   }
 
   // Add some space below the image
   const spacer = document.createElement('div');
   spacer.style.height = '40px';
-  imgContainer.appendChild(spacer);
+  homeSection.insertBefore(spacer, homeSection.querySelector('.unlock-hint').nextSibling);
 });
 
 let startY = 0;
