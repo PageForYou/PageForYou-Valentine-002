@@ -9,19 +9,23 @@
 <body>
 
     <section id="home" class="page active">
-        <h1 class="title">Happy Valentine Day</h1>
+        <h1 class="title">Happ Valentine Day</h1>
         <p class="unlock-hint">เลื่อนขึ้นเพื่อปลดล็อค</p>
     </section>
 
   <section id="password" class="page">
     <button class="back-btn" onclick="showPage('home')">←</button>
-    <h2 id="password-hint">รหัสเป็นรูปหัวใจ ><</h2>
 
-    <div id="pattern-wrapper">
+    <div class="password-bottom">
+      <h2 id="password-hint">รหัสเป็นรูปหัวใจ ><</h2>
+
+      <div id="pattern-wrapper">
         <svg id="lines"></svg>
         <div id="pattern" class="pattern"></div>
+      </div>
     </div>
   </section>
+
 
   <section id="menu" class="page">
     <button class="back-btn" onclick="showPage('home')">←</button>

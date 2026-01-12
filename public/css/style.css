@@ -1,44 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
 * {
   box-sizing: border-box;
-  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body {
   margin: 0;
   overflow: hidden;
   background: #ffd6e8;
+  height: 100svh;
+  width: 100vw;
+  position: fixed;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .title {
-  font-family: 'Playfair Display', serif;
-  font-size: 50px;
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.5rem, 10vw, 4rem);
   color: #ff4f9a;
   position: absolute;
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
+  width: 90%;
+  max-width: 600px;
   text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .unlock-hint {
   position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0.7;
+  bottom: 10vh;
+  font-size: 1.2rem;
+  color: #ff4f9a;
+  opacity: 0.8;
+  text-align: center;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .page {
-  height: 100vh;
-  width: 100%;
+  height: 100svh;
+  width: 100vw;
   position: absolute;
   top: 100%;
   left: 0;
   transition: top 0.5s ease;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .page.active {
@@ -54,45 +73,53 @@ body {
   position: relative;
 }
 
-#password, #menu {
+#password {
   background: #ffeaf4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;  /* Push content to bottom */
+  padding: 20px 0 5vh;        /* 5vh bottom padding */
+  min-height: 100%;
+  justify-content: flex-end;  /* Push content to the bottom */
+  padding-bottom: 5vh;        /* Add some bottom padding */
+}
+#menu {
+  background: #ffeaf4;
+  min-height: 100vh;
+  padding-top: 80px;
 }
 
 h1, h2 {
   color: #ff4f9a;
+  margin: 0.5em 0;
+  font-size: clamp(1.2rem, 5vw, 2rem);
 }
 
 .hint {
-  margin-top: 20px;
+  margin-top: 2vh;
   opacity: 0.7;
+  font-size: clamp(0.8rem, 3vw, 1rem);
 }
 
 .back-btn {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: clamp(1.5rem, 6vw, 2rem);
   color: #ff4f9a;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
 }
 
+/* Heart Pattern Styles */
 .pattern {
-  display: grid;
-  grid-template-columns: repeat(3, 20px);
-  gap: 10svh;
-  justify-content: center;
-  margin-top: 40px;
-  overflow: hidden;
   position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
+  width: 80vmin;
+  max-width: 400px;
+  aspect-ratio: 1;
+  margin: 2vh auto;
   touch-action: none;
-}
-
-#pattern-wrapper {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 40px auto;
 }
 
 #lines {
@@ -105,38 +132,40 @@ h1, h2 {
 }
 
 #password-hint {
-    text-align: center;
+  text-align: center;
+  margin: 1rem 0;
+  font-size: clamp(0.9rem, 4vw, 1.2rem);
+  margin-bottom: 20px;        /* Space between hint and pattern */
+  text-align: center;
 }
 
 .dot {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: 30px;           /* Increased from 24px */
+  height: 30px;          /* Increased from 24px */
   border-radius: 50%;
   background: #fff;
   border: 2px solid #ff4f9a;
   transform: translate(-50%, -50%);
   transition: all 0.2s ease;
   z-index: 2;
+  box-sizing: border-box;
 }
-
+/* Update the active state to scale proportionally */
 .dot.active {
+  transform: translate(-50%, -50%) scale(1.3);  /* Scale up when active */
   background: #ff4f9a;
-  transform: translate(-50%, -50%) scale(1.3);
   box-shadow: 0 0 10px rgba(255, 79, 154, 0.5);
 }
 
-.pattern.error .dot {
-  animation: shake 0.3s;
+.pattern.error .dot,
+#pattern-wrapper.error .dot {
   background: #ff6b6b;
+  animation: shake 0.3s;
 }
 
 #pattern-wrapper.error {
   animation: shake 0.3s;
-}
-
-#pattern-wrapper.error .dot {
-  background: #ff6b6b;
 }
 
 .pattern.success .dot {
@@ -151,15 +180,66 @@ h1, h2 {
   100% { transform: translateX(0); }
 }
 
+/* Menu Grid */
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 20px;
-  margin-top: 60px;
+  padding: 0 20px;
+  max-width: 400px;
+  margin: 0 auto;
 }
-
 .menu-box {
-  height: 120px;
   background: #fff;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100px;
+  font-size: 1.2rem;
+  color: #ff4f9a;
+  font-weight: 600;
 }
+.menu-box:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-height: 600px) {
+  .title {
+    top: 5%;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+  }
+  
+  .menu-grid {
+    margin-top: 2vh;
+    gap: 2vmin;
+  }
+  
+  .menu-box {
+    border-radius: 15px;
+  }
+}
+
+/* Prevent text selection on touch devices */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#pattern-wrapper {
+  width: 80vmin;
+  max-width: 400px;
+  margin: 0 auto;             /* Center the pattern */
+  position: relative;
+  aspect-ratio: 1;            /* Keep it square */
+}
+
