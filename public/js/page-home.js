@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // const imgPath = `/public/assets/img/heart_3_rbg.png`;
     const imgPath = isLocal
       ? '/public/assets/img/heart_3_rbg.png'
-      : '/PageForYou-Valentine-002/public/assets/img/heart_3_rbg.png';
+      : '../public/assets/img/heart_3_rbg.png';
     const img = document.createElement('img');
     
     img.onload = function() {
