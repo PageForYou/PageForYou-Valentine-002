@@ -80,7 +80,6 @@ pattern.addEventListener("touchmove", e => {
 
 pattern.addEventListener("touchend", () => {
   isDrawing = false;
-
   if (JSON.stringify(input) === JSON.stringify(correctPattern)) {
     pattern.classList.add("success");
 
@@ -94,6 +93,10 @@ pattern.addEventListener("touchend", () => {
 
     setTimeout(resetPattern, 400);
   }
+  
+  setTimeout(() => {
+    resetPattern();
+  }, 500);
 });
 
 // ===== FUNCTIONS =====
