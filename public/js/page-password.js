@@ -93,7 +93,7 @@ pattern.addEventListener("touchend", () => {
 
     setTimeout(resetPattern, 400);
   }
-
+  
   setTimeout(() => {
     resetPattern();
   }, 500);
@@ -120,27 +120,23 @@ function drawLine(from, to) {
 }
 
 function resetPattern() {
-  // Clear the input array
   input = [];
   lastDot = null;
-  
-  // Remove active class from all dots
-  const dots = document.querySelectorAll('.dot');
-  dots.forEach((dot, index) => {
-    dot.classList.remove('active');
+  pattern.className = "pattern";
+  patternWrapper.classList.remove("error");
+  svg.innerHTML = "";
+  // Reset each dot's position based on heartDots array
+  document.querySelectorAll(".dot").forEach((dot, index) => {
+    dot.classList.remove("active");
+    
     // Reset position from heartDots array
     const pos = heartDots[index];
-    dot.style.left = `${pos[0]}%`;
-    dot.style.top = `${pos[1]}%`;
-    
-    // Force reflow to ensure the position is reset
-    void dot.offsetWidth;
+    if (pos) {  // Make sure the position exists
+      dot.style.left = `${pos[0]}%`;
+      dot.style.top = `${pos[1]}%`;
+      
+      // Force reflow to ensure the position is updated
+      void dot.offsetWidth;
+    }
   });
-  
-  // Clear the SVG lines
-  svg.innerHTML = '';
-  
-  // Remove error class after animation completes
-  patternWrapper.classList.remove('error');
-  pattern.classList.remove('error');
 }
