@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   homeSection.insertBefore(imgContainer, homeSection.querySelector('.unlock-hint'));
 
   try {
-    const imgDir = `customers/${customerId}/img/01`;
+    const imgDir = `../customers/${customerId}/img/01`;
     const imgPath = await getFirstImageInDir(imgDir);
     
     if (!imgPath) {
