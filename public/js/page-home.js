@@ -1,31 +1,3 @@
-// Add this function to get the first image in the directory
-async function getFirstImageInDir(dir) {
-  try {
-    // Try to fetch the directory listing
-    const response = await fetch(dir);
-    if (!response.ok) return null;
-    
-    const html = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    
-    // Find all image links in the directory
-    const links = Array.from(doc.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".webp"]'))
-      .map(link => link.getAttribute('href'))
-      .filter(href => !href.startsWith('?') && href !== '../');
-      
-    if (links.length > 0) {
-      // Return the first image found
-      return `${dir}/${links[0]}`;
-    }
-    return null;
-  } catch (error) {
-    console.error('Error accessing directory:', error);
-    return null;
-  }
-}
-
-// Update the image loading part to be async
 document.addEventListener('DOMContentLoaded', async function() {
   const urlParams = new URLSearchParams(window.location.search);
   const customerId = urlParams.get('id') || 'example'; // Default to 'example' if no ID provided
@@ -45,14 +17,21 @@ document.addEventListener('DOMContentLoaded', async function() {
   homeSection.insertBefore(imgContainer, homeSection.querySelector('.unlock-hint'));
 
   try {
-    const imgDir = `../customers/${customerId}/img/01`;
-    const imgPath = await getFirstImageInDir(imgDir);
-    
-    if (!imgPath) {
-      throw new Error('No image found');
-    }
-
+    // Fixed image path
+    const imgPath = `../customers/${customerId}/img/01.png`;
     const img = document.createElement('img');
+    
+    img.onload = function() {
+      img.style.opacity = '1';
+      imgContainer.innerHTML = ''; // Clear loading message
+      imgContainer.appendChild(img);
+    };
+    
+    img.onerror = function() {
+      imgContainer.innerHTML = '<p style="color: #ff4f9a;">ไม่พบรูปภาพ</p>';
+    };
+    
+    // Set image properties
     img.src = imgPath;
     img.alt = 'Couple Image';
     img.style.width = '100%';
@@ -62,21 +41,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     img.style.opacity = '0';
     img.style.transition = 'opacity 0.3s ease';
     
-    img.onload = function() {
-      img.style.opacity = '1';
-      imgContainer.innerHTML = ''; // Clear loading message
-      imgContainer.appendChild(img);
-    };
-    
-    img.onerror = function() {
-      imgContainer.innerHTML = '<p style="color: #ff4f9a;">ไม่สามารถโหลดรูปภาพได้</p>';
-    };
-    
   } catch (error) {
     imgContainer.innerHTML = `
       <div style="color: #ff4f9a;">
-        <p>ไม่พบรูปภาพสำหรับ ID: ${customerId}</p>
-        <p>ตรวจสอบ URL หรือลองใหม่ภายหลัง</p>
+        <p>เกิดข้อผิดพลาด: ${error.message}</p>
       </div>
     `;
   }
@@ -87,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   homeSection.insertBefore(spacer, homeSection.querySelector('.unlock-hint').nextSibling);
 });
 
+// Keep the touch event listeners
 let startY = 0;
 
 document.getElementById("home").addEventListener("touchstart", e => {
