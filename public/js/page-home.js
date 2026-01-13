@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function() {
   const urlParams = new URLSearchParams(window.location.search);
-  const customerId = urlParams.get('id') || 'example'; // Default to 'example' if no ID provided
+  // const customerId = urlParams.get('id') || 'example'; // Default to 'example' if no ID provided
   const homeSection = document.getElementById('home');
   
   // Create image container
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', async function() {
   homeSection.insertBefore(imgContainer, homeSection.querySelector('.unlock-hint'));
 
   try {
-    // Fixed image path
-    const imgPath = `../customers/${customerId}/img/01.png`;
+    // const imgPath = `../customers/${customerId}/img/02.png`;
+    const imgPath = `/public/assets/img/heart_3_rbg.png`;
     const img = document.createElement('img');
     
     img.onload = function() {
@@ -34,10 +34,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Set image properties
     img.src = imgPath;
     img.alt = 'Couple Image';
-    img.style.width = '100%';
-    img.style.height = 'auto';
+    // img.style.width = '100%';
+    img.style.height = '25svh';
     img.style.borderRadius = '15px';
-    img.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
     img.style.opacity = '0';
     img.style.transition = 'opacity 0.3s ease';
     

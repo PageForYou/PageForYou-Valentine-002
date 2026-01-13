@@ -25,18 +25,32 @@ body {
 
 .title {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-size: clamp(4rem, 15vw, 7rem);
+  font-weight: 700;
   color: #ff4f9a;
   position: absolute;
-  top: 15%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 600px;
   text-align: center;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow:
+    0 2px 0 rgba(255,255,255,0.6),
+    0 3px 7px rgba(0,0,0,0.25);
 }
 
+@keyframes bounce {
+  0%, 10%, 20%, 100% {
+    transform: translateY(0);
+  }
+  5% {
+    transform: translateY(-15px);
+  }
+  15% {
+    transform: translateY(-15px);
+  }
+}
 .unlock-hint {
   position: absolute;
   bottom: 10vh;
@@ -46,6 +60,7 @@ body {
   text-align: center;
   width: 100%;
   padding: 0 20px;
+  animation: bounce 3s infinite ease-in-out;
 }
 
 .page {
@@ -65,7 +80,16 @@ body {
 }
 
 #home {
-  background: #ffc1dc;
+  /* background: linear-gradient(
+    135deg,
+    #ffd1e8,
+    #ffc1dc,
+    #f6b1cc,
+    #eaa3c0
+  ); */
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 60%),
+    linear-gradient(135deg, #ffd1e8, #f7b7d3, #eaa3c0);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,17 +98,31 @@ body {
 }
 
 #password {
-  background: #ffeaf4;
+  /* background: #ffeaf4; */
+  background: linear-gradient(
+    160deg,
+    #fff1f7 0%,
+    #ffe3ee 40%,
+    #ffd6e8 70%,
+    #ffeaf4 100%
+  );
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;  /* Push content to bottom */
-  padding: 20px 0 5vh;        /* 5vh bottom padding */
+  justify-content: center;
+  padding: 20px 0 5vh;
   min-height: 100%;
-  justify-content: flex-end;  /* Push content to the bottom */
-  padding-bottom: 5vh;        /* Add some bottom padding */
+  padding-bottom: 5vh;
 }
+
 #menu {
-  background: #ffeaf4;
+  /* background: #ffeaf4; */
+  background: linear-gradient(
+    160deg,
+    #fff1f7 0%,
+    #ffe3ee 40%,
+    #ffd6e8 70%,
+    #ffeaf4 100%
+  );
   min-height: 100vh;
   padding-top: 80px;
 }
@@ -173,11 +211,11 @@ h1, h2 {
 }
 
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
+  0% { translate: 0; }
+  25% { translate: -6px 0; }
+  50% { translate: 6px 0; }
+  75% { translate: -6px 0; }
+  100% { translate: 0; }
 }
 
 /* Menu Grid */
@@ -242,4 +280,3 @@ h1, h2 {
   position: relative;
   aspect-ratio: 1;            /* Keep it square */
 }
-
