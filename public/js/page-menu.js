@@ -1,12 +1,10 @@
 // Menu configuration
 const menuItems = [
-  { id: 'timer', title: '⏱️ ระยะเวลาที่เราคบกัน' },
-  { id: 'memories', title: '📸 ความทรงจำ' },
-  { id: 'messages', title: '💌 ข้อความ' },
-  { id: 'quiz', title: '❓ ตอบคำถาม' },
-  { id: 'wheel', title: '🎡 วงล้อสุ่มตามใจ' }
+  { id: 'timer', title: '⏱️ ระยะเวลาที่เราคบกัน', handler: 'showTimerPage()' },
+  { id: 'gallery', title: '📸 ความทรงจำ', handler: 'showGalleryPage()' },
+  { id: 'messages', title: '💌 ข้อความ', handler: 'showMessagePage()' },
+  { id: 'wheel', title: '🎡 วงล้อสุ่มตามใจ', handler: 'showWheelPage()' }
 ];
-
 // Function to create menu items with staggered animation
 function createMenuItems() {
   const menuGrid = document.getElementById('menu-grid');
@@ -33,27 +31,31 @@ function createMenuItems() {
     
     // Add click handler
     menuItem.addEventListener('click', (e) => {
-        // Add click animation
-        e.target.style.transform = 'scale(0.95)';
-        setTimeout(() => {
+      // Add click animation
+      e.target.style.transform = 'scale(0.95)';
+      setTimeout(() => {
         e.target.style.transform = 'scale(1)';
-        }, 100);
-        
-        console.log(`Selected: ${item.title}`);
+        // Execute the handler for this menu item
+        if (item.handler) {
+          setTimeout(() => {
+            eval(item.handler);
+          }, 200); // Slight delay for animation
+        }
+      }, 100);
     });
     
     menuGrid.appendChild(menuItem);
     
     // Trigger animation
     setTimeout(() => {
-        menuItem.style.opacity = '1';
-        menuItem.style.transform = 'scale(1.05) translateY(0)';
-        
-        // Add bounce effect
-        setTimeout(() => {
+      menuItem.style.opacity = '1';
+      menuItem.style.transform = 'scale(1.05) translateY(0)';
+      
+      // Add bounce effect
+      setTimeout(() => {
         menuItem.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1.5)';
         menuItem.style.transform = 'scale(1) translateY(0)';
-        }, 300);
+      }, 300);
     }, 50);
   });
 }

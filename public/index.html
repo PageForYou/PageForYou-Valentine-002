@@ -8,7 +8,7 @@
 </head>
 <body>
   <div style="position: fixed; top: 10px; right: 10px; color: #ff4f9a; font-size: 0.8rem; z-index: 1000; background: rgba(255, 255, 255, 0.7); padding: 2px 8px; border-radius: 10px; font-family: system-ui, sans-serif;">
-    v1.0.13 (dot bug fixed)
+    v1.0.14 (menu pages)
   </div>
 
   <section id="home" class="page active">
@@ -36,10 +36,40 @@
     <div class="menu-grid" id="menu-grid">
     </div>
   </section>
+  
+  <section id="timecount" class="page">
+    <button class="back-btn" onclick="showPage('menu')">←</button>
+    <div class="timecount-content">
+    </div>
+  </section>
+  <section id="gallerytest" class="page">
+    <button class="back-btn" onclick="showPage('menu')">←</button>
+    <div class="gallerytest-content">
+    </div>
+  </section>
+  <section id="message" class="page">
+    <button class="back-btn" onclick="showPage('menu')">←</button>
+    <div class="message-content">
+    </div>
+  </section>
+  <section id="music" class="page">
+    <button class="back-btn" onclick="showPage('menu')">←</button>
+    <div class="music-content">
+    </div>
+  </section>
+  <section id="wheeltest" class="page">
+    <button class="back-btn" onclick="showPage('menu')">←</button>
+    <div class="wheeltest-content">
+    </div>
+  </section>
 
   <script src="js/router.js"></script>
   <script src="js/page-home.js"></script>
   <script src="js/page-password.js"></script>
   <script src="js/page-menu.js"></script>
+  <script src="js/page-timer.js"></script>
+  <script src="js/page-gallery.js"></script>
+  <script src="js/page-message.js"></script>
+  <script src="js/page-wheel.js"></script>
 </body>
 </html>

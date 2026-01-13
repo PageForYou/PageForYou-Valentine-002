@@ -1,4 +1,5 @@
-const pages = ["home", "password", "menu"];
+// router.js
+const pages = ["home", "password", "menu", "timecount", "gallerytest", "message", "wheeltest"];
 
 function showPage(name) {
   // Hide all pages

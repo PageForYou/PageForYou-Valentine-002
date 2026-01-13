@@ -1,2 +1,3 @@
 To do
-- fix dot position bug
+/ fix dot position bug
+- add emoji heart randomly up from bottom of home page
