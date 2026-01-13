@@ -1,6 +1,7 @@
 // ===== CONFIG =====
 // Updated pattern for heart shape (using 7 dots)
-const correctPattern = [7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8]; // You can adjust this pattern as needed
+// const correctPattern = [7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8]; // You can adjust this pattern as needed
+const correctPattern = [7, 6];
 // ===== STATE =====
 let input = [];
 let isDrawing = false;
