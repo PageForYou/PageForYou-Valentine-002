@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function() {
   const urlParams = new URLSearchParams(window.location.search);
+  const isLocal = location.hostname === 'localhost';
   // const customerId = urlParams.get('id') || 'example'; // Default to 'example' if no ID provided
   const homeSection = document.getElementById('home');
   
@@ -17,8 +18,10 @@ document.addEventListener('DOMContentLoaded', async function() {
   homeSection.insertBefore(imgContainer, homeSection.querySelector('.unlock-hint'));
 
   try {
-    // const imgPath = `../customers/${customerId}/img/02.png`;
-    const imgPath = `/public/assets/img/heart_3_rbg.png`;
+    // const imgPath = `/public/assets/img/heart_3_rbg.png`;
+    const imgPath = isLocal
+      ? '/public/assets/img/heart_3_rbg.png'
+      : '/PageForYou-Valentine-002/public/assets/img/heart_3_rbg.png';
     const img = document.createElement('img');
     
     img.onload = function() {
