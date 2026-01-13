@@ -21,6 +21,23 @@ document.addEventListener('DOMContentLoaded', async function() {
       img.classList.add('loaded');
       imgContainer.innerHTML = '';
       imgContainer.appendChild(img);
+  
+      // Add click/touch handler to restart animation if needed
+      const handleInteraction = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Force reflow to restart animation
+        img.style.animation = 'none';
+        // Trigger reflow
+        void img.offsetWidth;
+        // Re-add animation
+        img.style.animation = 'heartAnimation 15s ease-in-out infinite';
+      };
+      
+      // Add both touch and click events
+      img.addEventListener('click', handleInteraction);
+      img.addEventListener('touchend', handleInteraction);
     };
     
     img.onerror = function() {

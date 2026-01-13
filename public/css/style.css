@@ -231,6 +231,9 @@ h1, h2 {
   transition: all 0.2s ease;
   z-index: 2;
   box-sizing: border-box;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 /* Update the active state to scale proportionally */
 .dot.active {
@@ -239,14 +242,8 @@ h1, h2 {
   box-shadow: 0 0 10px rgba(255, 79, 154, 0.5);
 }
 
-.pattern.error .dot,
-#pattern-wrapper.error .dot {
-  background: #ff6b6b;
-  animation: shake 0.3s;
-}
-
 #pattern-wrapper.error {
-  animation: shake 0.3s;
+  animation: shake 0.4s ease-in-out;
 }
 
 .pattern.success .dot {
@@ -397,6 +394,7 @@ h1, h2 {
   padding: 20px;
   text-align: center;
   min-height: 200px; /* Prevent layout shift */
+  pointer-events: none;
 }
 
 .loading-text {
@@ -411,6 +409,14 @@ h1, h2 {
 }
 
 .heart-image {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Safari */
+  -khtml-user-select: none;    /* Konqueror HTML */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently supported by Chrome and Opera */
+  -webkit-tap-highlight-color: transparent;
+
   height: 23svh;
   border-radius: 15px;
   opacity: 0;
@@ -421,15 +427,29 @@ h1, h2 {
     heartAnimation 15s ease-in-out infinite;
   transform-origin: center;
   will-change: transform;
+  /* Prevent text selection and ensure smooth interaction */
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  /* Ensure the animation runs smoothly */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  pointer-events: auto;
 }
-/* Combined float and pulse animation */
+/* Update the animation to be more fluid */
 @keyframes heartAnimation {
-  /* Pulse effect - happens at specific intervals */
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+  }
   5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% {
-    transform: scale(1.05, 0.95);
+    transform: scale(1.05, 0.95) translateZ(0);
   }
   10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% {
-    transform: scale(0.95, 1.05);
+    transform: scale(0.95, 1.05) translateZ(0);
   }
 }
 .heart-image.loaded {
