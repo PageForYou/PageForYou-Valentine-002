@@ -116,61 +116,14 @@ function drawLine(from, to) {
 }
 
 function resetPattern() {
-  // Show debug message
-  const debugMsg = document.createElement('div');
-  debugMsg.textContent = 'Pause 5 seconds';
-  debugMsg.style.cssText = `
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 15px 30px;
-    border-radius: 10px;
-    z-index: 1000;
-    font-size: 1.2rem;
-    font-weight: bold;
-    animation: fadeInOut 4.9s ease-out;
-  `;
-  
-  // Add animation for the message
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translate(-50%, -20px); }
-      10% { opacity: 1; transform: translate(-50%, 0); }
-      90% { opacity: 1; transform: translate(-50%, 0); }
-      100% { opacity: 0; transform: translate(-50%, -20px); }
-    }
-  `;
-  document.head.appendChild(style);
-  document.body.appendChild(debugMsg);
-  
-  // Reset dot positions after 5 seconds
-  setTimeout(() => {
-    // Clear the pattern immediately
-    input = [];
-    lastDot = null;
-    pattern.className = "pattern";
-    patternWrapper.classList.remove("error");
-    svg.innerHTML = "";
+  input = [];
+  lastDot = null;
 
-    document.querySelectorAll(".dot").forEach((dot, index) => {
-      dot.classList.remove("active");
-      const pos = heartDots[index];
-      if (pos) {
-        dot.style.left = `${pos[0]}%`;
-        dot.style.top = `${pos[1]}%`;
-      }
-    });
-    
-    // Clean up
-    if (debugMsg.parentNode) {
-      debugMsg.parentNode.removeChild(debugMsg);
-    }
-    if (style.parentNode) {
-      style.parentNode.removeChild(style);
-    }
-  }, 5000); // 5 seconds delay
+  pattern.className = "pattern";
+  patternWrapper.classList.remove("error");
+  svg.innerHTML = "";
+
+  document.querySelectorAll(".dot").forEach(dot => {
+    dot.classList.remove("active");
+  });
 }
